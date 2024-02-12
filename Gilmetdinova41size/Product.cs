@@ -22,17 +22,16 @@ namespace Gilmetdinova41size
     
         public string ProductArticleNumber { get; set; }
         public string ProductName { get; set; }
-        public string EdIzm { get; set; }
-        public decimal ProductCost { get; set; }
-        public string MaxDiscountAmount { get; set; }
-        public string ProductManufacturer { get; set; }
-        public string Postav { get; set; }
-        public string ProductCategory { get; set; }
-        public Nullable<byte> ProductDiscountAmount { get; set; }
-        public int ProductQuantityInStock { get; set; }
         public string ProductDescription { get; set; }
+        public string ProductCategory { get; set; }
         public string ProductPhoto { get; set; }
+        public string ProductManufacturer { get; set; }
+        public decimal ProductCost { get; set; }
+        public Nullable<int> ProductDiscountMax { get; set; }
+        public Nullable<int> ProductDiscountCurrent { get; set; }
+        public int ProductQuantityInStock { get; set; }
         public string ProductStatus { get; set; }
+        public string ProductProvider { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderProduct> OrderProduct { get; set; }

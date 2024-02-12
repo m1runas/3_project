@@ -12,19 +12,19 @@ namespace Gilmetdinova41size
     using System;
     using System.Collections.Generic;
     
-    public partial class PickupPoint
+    public partial class OrderPickupPoint
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PickupPoint()
+        public OrderPickupPoint()
         {
             this.Order = new HashSet<Order>();
         }
     
-        public int ID { get; set; }
-        public string PickUpPointIndex { get; set; }
-        public string Town { get; set; }
-        public string Streeet { get; set; }
-        public string house { get; set; }
+        public int OrderPickupPoint1 { get; set; }
+        public Nullable<int> OrderIndex { get; set; }
+        public string OrderCity { get; set; }
+        public string OrderStreet { get; set; }
+        public Nullable<int> OrderHouse { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Order { get; set; }

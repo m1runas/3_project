@@ -10,13 +10,22 @@
             <PropertyRef Name="OrderID" />
           </Key>
           <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OrderStatus" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="OrderDeliveryDate" Type="datetime" Nullable="false" />
+          <Property Name="OrderDate" Type="date" />
+          <Property Name="OrderDeliveryDate" Type="date" Nullable="false" />
           <Property Name="OrderPickupPoint" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="150" />
-          <Property Name="UserSurname" Type="nvarchar" MaxLength="150" />
-          <Property Name="UserThirdname" Type="nvarchar" MaxLength="150" />
-          <Property Name="GiveAwayCode" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="OrderCode" Type="int" />
+          <Property Name="OrderStatus" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderPickupPoint">
+          <Key>
+            <PropertyRef Name="OrderPickupPoint" />
+          </Key>
+          <Property Name="OrderPickupPoint" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderIndex" Type="int" />
+          <Property Name="OrderCity" Type="nvarchar(max)" />
+          <Property Name="OrderStreet" Type="nvarchar(max)" />
+          <Property Name="OrderHouse" Type="int" />
         </EntityType>
         <EntityType Name="OrderProduct">
           <Key>
@@ -27,33 +36,22 @@
           <Property Name="ProductArticleNumber" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Amount" Type="int" />
         </EntityType>
-        <EntityType Name="PickupPoint">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PickUpPointIndex" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Town" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Streeet" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="house" Type="nvarchar(max)" />
-        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductArticleNumber" />
           </Key>
           <Property Name="ProductArticleNumber" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ProductName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="EdIzm" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ProductCost" Type="decimal" Precision="19" Scale="2" Nullable="false" />
-          <Property Name="MaxDiscountAmount" Type="nchar" MaxLength="10" />
-          <Property Name="ProductManufacturer" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Postav" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ProductCategory" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ProductDiscountAmount" Type="tinyint" />
-          <Property Name="ProductQuantityInStock" Type="int" Nullable="false" />
           <Property Name="ProductDescription" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ProductPhoto" Type="nvarchar" MaxLength="50" />
-          <Property Name="ProductStatus" Type="nvarchar(max)" />
+          <Property Name="ProductCategory" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductPhoto" Type="nvarchar(max)" />
+          <Property Name="ProductManufacturer" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductCost" Type="decimal" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="ProductDiscountMax" Type="int" />
+          <Property Name="ProductDiscountCurrent" Type="int" />
+          <Property Name="ProductQuantityInStock" Type="int" Nullable="false" />
+          <Property Name="ProductStatus" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductProvider" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -98,7 +96,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__User__UserRole__0F624AF8">
+        <Association Name="FK__User__UserRole__7E37BEF6">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
@@ -110,22 +108,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_PickupPoint">
-          <End Role="PickupPoint" Type="Self.PickupPoint" Multiplicity="1" />
+        <Association Name="FK_Order_OrderPickupPoint">
+          <End Role="OrderPickupPoint" Type="Self.OrderPickupPoint" Multiplicity="1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PickupPoint">
-              <PropertyRef Name="ID" />
+            <Principal Role="OrderPickupPoint">
+              <PropertyRef Name="OrderPickupPoint" />
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="OrderPickupPoint" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Order_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище Gilmetdinova41sizeModelContainer">
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderPickupPoint" EntityType="Self.OrderPickupPoint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderProduct" EntityType="Self.OrderProduct" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PickupPoint" EntityType="Self.PickupPoint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -137,12 +147,16 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderProduct" EntitySet="OrderProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__User__UserRole__0F624AF8" Association="Self.FK__User__UserRole__0F624AF8">
+          <AssociationSet Name="FK__User__UserRole__7E37BEF6" Association="Self.FK__User__UserRole__7E37BEF6">
             <End Role="Role" EntitySet="Role" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_PickupPoint" Association="Self.FK_Order_PickupPoint">
-            <End Role="PickupPoint" EntitySet="PickupPoint" />
+          <AssociationSet Name="FK_Order_OrderPickupPoint" Association="Self.FK_Order_OrderPickupPoint">
+            <End Role="OrderPickupPoint" EntitySet="OrderPickupPoint" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
+            <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
         </EntityContainer>
@@ -156,15 +170,26 @@
             <PropertyRef Name="OrderID" />
           </Key>
           <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="OrderDeliveryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderDate" Type="DateTime" Precision="0" />
+          <Property Name="OrderDeliveryDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="OrderPickupPoint" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="UserSurname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="UserThirdname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="GiveAwayCode" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="OrderCode" Type="Int32" />
+          <Property Name="OrderStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="OrderProduct" Relationship="Self.FK__OrderProd__Order__2D27B809" FromRole="Order" ToRole="OrderProduct" />
-          <NavigationProperty Name="PickupPoint" Relationship="Self.FK_Order_PickupPoint" FromRole="Order" ToRole="PickupPoint" />
+          <NavigationProperty Name="OrderPickupPoint1" Relationship="Self.FK_Order_OrderPickupPoint" FromRole="Order" ToRole="OrderPickupPoint" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Order_User" FromRole="Order" ToRole="User" />
+        </EntityType>
+        <EntityType Name="OrderPickupPoint">
+          <Key>
+            <PropertyRef Name="OrderPickupPoint1" />
+          </Key>
+          <Property Name="OrderPickupPoint1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderIndex" Type="Int32" />
+          <Property Name="OrderCity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderStreet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderHouse" Type="Int32" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_OrderPickupPoint" FromRole="OrderPickupPoint" ToRole="Order" />
         </EntityType>
         <EntityType Name="OrderProduct">
           <Key>
@@ -177,34 +202,22 @@
           <NavigationProperty Name="Order" Relationship="Self.FK__OrderProd__Order__2D27B809" FromRole="OrderProduct" ToRole="Order" />
           <NavigationProperty Name="Product" Relationship="Self.FK__OrderProd__Produ__2E1BDC42" FromRole="OrderProduct" ToRole="Product" />
         </EntityType>
-        <EntityType Name="PickupPoint">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PickUpPointIndex" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Town" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Streeet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="house" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Order_PickupPoint" FromRole="PickupPoint" ToRole="Order" />
-        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductArticleNumber" />
           </Key>
           <Property Name="ProductArticleNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EdIzm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductCost" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
-          <Property Name="MaxDiscountAmount" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="ProductManufacturer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Postav" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductCategory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductDiscountAmount" Type="Byte" />
-          <Property Name="ProductQuantityInStock" Type="Int32" Nullable="false" />
           <Property Name="ProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductPhoto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ProductStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductCategory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductManufacturer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductCost" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="ProductDiscountMax" Type="Int32" />
+          <Property Name="ProductDiscountCurrent" Type="Int32" />
+          <Property Name="ProductQuantityInStock" Type="Int32" Nullable="false" />
+          <Property Name="ProductStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductProvider" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderProduct" Relationship="Self.FK__OrderProd__Produ__2E1BDC42" FromRole="Product" ToRole="OrderProduct" />
         </EntityType>
         <EntityType Name="Role">
@@ -213,7 +226,7 @@
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK__User__UserRole__0F624AF8" FromRole="Role" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="Self.FK__User__UserRole__7E37BEF6" FromRole="Role" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -226,7 +239,8 @@
           <Property Name="UserLogin" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserRole" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Role" Relationship="Self.FK__User__UserRole__0F624AF8" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_User" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__User__UserRole__7E37BEF6" FromRole="User" ToRole="Role" />
         </EntityType>
         <Association Name="FK__OrderProd__Order__2D27B809">
           <End Role="Order" Type="Self.Order" Multiplicity="1" />
@@ -240,15 +254,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_PickupPoint">
-          <End Role="PickupPoint" Type="Self.PickupPoint" Multiplicity="1" />
+        <Association Name="FK_Order_OrderPickupPoint">
+          <End Role="OrderPickupPoint" Type="Self.OrderPickupPoint" Multiplicity="1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PickupPoint">
-              <PropertyRef Name="ID" />
+            <Principal Role="OrderPickupPoint">
+              <PropertyRef Name="OrderPickupPoint1" />
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="OrderPickupPoint" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -264,7 +290,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__User__UserRole__0F624AF8">
+        <Association Name="FK__User__UserRole__7E37BEF6">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
@@ -278,8 +304,8 @@
         </Association>
         <EntityContainer Name="Gilmetdinova41sizeEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Order" EntityType="Self.Order" />
+          <EntitySet Name="OrderPickupPoint" EntityType="Self.OrderPickupPoint" />
           <EntitySet Name="OrderProduct" EntityType="Self.OrderProduct" />
-          <EntitySet Name="PickupPoint" EntityType="Self.PickupPoint" />
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="Role" EntityType="Self.Role" />
           <EntitySet Name="User" EntityType="Self.User" />
@@ -287,15 +313,19 @@
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderProduct" EntitySet="OrderProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_PickupPoint" Association="Self.FK_Order_PickupPoint">
-            <End Role="PickupPoint" EntitySet="PickupPoint" />
+          <AssociationSet Name="FK_Order_OrderPickupPoint" Association="Self.FK_Order_OrderPickupPoint">
+            <End Role="OrderPickupPoint" EntitySet="OrderPickupPoint" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
+            <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK__OrderProd__Produ__2E1BDC42" Association="Self.FK__OrderProd__Produ__2E1BDC42">
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderProduct" EntitySet="OrderProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__User__UserRole__0F624AF8" Association="Self.FK__User__UserRole__0F624AF8">
+          <AssociationSet Name="FK__User__UserRole__7E37BEF6" Association="Self.FK__User__UserRole__7E37BEF6">
             <End Role="Role" EntitySet="Role" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
@@ -310,13 +340,23 @@
             <EntityTypeMapping TypeName="Gilmetdinova41sizeModel.Order">
               <MappingFragment StoreEntitySet="Order">
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="OrderDeliveryDate" ColumnName="OrderDeliveryDate" />
                 <ScalarProperty Name="OrderPickupPoint" ColumnName="OrderPickupPoint" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserSurname" ColumnName="UserSurname" />
-                <ScalarProperty Name="UserThirdname" ColumnName="UserThirdname" />
-                <ScalarProperty Name="GiveAwayCode" ColumnName="GiveAwayCode" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderPickupPoint">
+            <EntityTypeMapping TypeName="Gilmetdinova41sizeModel.OrderPickupPoint">
+              <MappingFragment StoreEntitySet="OrderPickupPoint">
+                <ScalarProperty Name="OrderPickupPoint1" ColumnName="OrderPickupPoint" />
+                <ScalarProperty Name="OrderIndex" ColumnName="OrderIndex" />
+                <ScalarProperty Name="OrderCity" ColumnName="OrderCity" />
+                <ScalarProperty Name="OrderStreet" ColumnName="OrderStreet" />
+                <ScalarProperty Name="OrderHouse" ColumnName="OrderHouse" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -329,33 +369,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PickupPoint">
-            <EntityTypeMapping TypeName="Gilmetdinova41sizeModel.PickupPoint">
-              <MappingFragment StoreEntitySet="PickupPoint">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PickUpPointIndex" ColumnName="PickUpPointIndex" />
-                <ScalarProperty Name="Town" ColumnName="Town" />
-                <ScalarProperty Name="Streeet" ColumnName="Streeet" />
-                <ScalarProperty Name="house" ColumnName="house" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="Gilmetdinova41sizeModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ProductArticleNumber" ColumnName="ProductArticleNumber" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="EdIzm" ColumnName="EdIzm" />
-                <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
-                <ScalarProperty Name="MaxDiscountAmount" ColumnName="MaxDiscountAmount" />
-                <ScalarProperty Name="ProductManufacturer" ColumnName="ProductManufacturer" />
-                <ScalarProperty Name="Postav" ColumnName="Postav" />
-                <ScalarProperty Name="ProductCategory" ColumnName="ProductCategory" />
-                <ScalarProperty Name="ProductDiscountAmount" ColumnName="ProductDiscountAmount" />
-                <ScalarProperty Name="ProductQuantityInStock" ColumnName="ProductQuantityInStock" />
                 <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductCategory" ColumnName="ProductCategory" />
                 <ScalarProperty Name="ProductPhoto" ColumnName="ProductPhoto" />
+                <ScalarProperty Name="ProductManufacturer" ColumnName="ProductManufacturer" />
+                <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
+                <ScalarProperty Name="ProductDiscountMax" ColumnName="ProductDiscountMax" />
+                <ScalarProperty Name="ProductDiscountCurrent" ColumnName="ProductDiscountCurrent" />
+                <ScalarProperty Name="ProductQuantityInStock" ColumnName="ProductQuantityInStock" />
                 <ScalarProperty Name="ProductStatus" ColumnName="ProductStatus" />
+                <ScalarProperty Name="ProductProvider" ColumnName="ProductProvider" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

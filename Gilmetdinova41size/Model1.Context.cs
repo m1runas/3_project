@@ -15,12 +15,16 @@ namespace Gilmetdinova41size
     
     public partial class Gilmetdinova41sizeEntities : DbContext
     {
-
-
         public Gilmetdinova41sizeEntities()
             : base("name=Gilmetdinova41sizeEntities")
         {
         }
+    
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            throw new UnintentionalCodeFirstException();
+        }
+
         private static Gilmetdinova41sizeEntities _context;
 
         public static Gilmetdinova41sizeEntities GetContext()
@@ -28,17 +32,12 @@ namespace Gilmetdinova41size
             if (_context == null)
                 _context = new Gilmetdinova41sizeEntities();
 
-            return _context;    
-        }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
+            return _context;
         }
     
         public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<OrderPickupPoint> OrderPickupPoint { get; set; }
         public virtual DbSet<OrderProduct> OrderProduct { get; set; }
-        public virtual DbSet<PickupPoint> PickupPoint { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<User> User { get; set; }

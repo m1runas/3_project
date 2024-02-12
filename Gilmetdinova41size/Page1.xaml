@@ -11,7 +11,49 @@
     <Grid>
         
         <Grid>
-            <ListView Name="SizeListView" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+          
+                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <TextBlock Text="Количество " FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Name="TBCount" FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Text=" из " FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Name="TBALLRecords" FontSize="15" FontWeight="Bold"/>
+                </StackPanel>
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock Text="Введите название для поиска" TextAlignment="Right"
+                               Width="235" FontSize="15" VerticalAlignment="Center"></TextBlock>
+                    <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged" 
+                             Width="200" Height="20" FontSize="15"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="9">
+                    <RadioButton Content="По возрастанию" GroupName="Sort"
+                 Width="200" FontSize="15" Name="RBtnUp" Checked="RBtnUp_Checked"
+                 ></RadioButton>
+                    <RadioButton Name="RBtnDown" Content="По убыванию стоимости" GroupName="Sort" Width="200" FontSize="15" Checked="RBtnDown_Checked"></RadioButton>
+                </StackPanel>
+                <TextBlock Text="Фильтрация по скидке" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <StackPanel Orientation="Vertical" Margin="9">
+                    <ComboBox Name="ComboType"  SelectionChanged="ComboType_SelectionChanged" FontSize="19" Width="100" >
+                        <TextBlock> Все</TextBlock>
+                        <TextBlock>0-9,99%</TextBlock>
+                        <TextBlock>10-14,99%</TextBlock>
+                        <TextBlock>более 15%</TextBlock>
+                    </ComboBox>
+                </StackPanel>
+            </WrapPanel>
+            
+             
+
+
+
+
+            <ListView Name="SizeListView" Grid.Row="2" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -42,7 +84,7 @@
                             <TextBlock Text="{Binding ProductDescription}" Grid.Row="1"  Grid.Column="1"></TextBlock>
                             <TextBlock Text="{Binding ProductManufacturer }" Grid.Row="2"  Grid.Column="1"></TextBlock>
                             <TextBlock Text="{Binding ProductCost}" Grid.Row="3"  Grid.Column="1"></TextBlock>
-                            <TextBlock Text="{Binding ProductDiscountAmount, StringFormat={}{0:0} % }" FontSize="40" Grid.RowSpan="4"  Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1600 0 0 0" ></TextBlock>
+                            <TextBlock Text="{Binding ProductDiscountCurrent, StringFormat={}{0:0} % }" FontSize="40" Grid.RowSpan="4"  Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1600 0 0 0" ></TextBlock>
                             
                             
                             
