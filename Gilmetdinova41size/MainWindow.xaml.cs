@@ -23,7 +23,7 @@ namespace Gilmetdinova41size
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new Page1());
+            MainFrame.Navigate(new AuthPage());
             Manager.MainFrame = MainFrame;
 
         }

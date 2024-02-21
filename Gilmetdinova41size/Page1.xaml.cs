@@ -23,12 +23,24 @@ namespace Gilmetdinova41size
     public partial class Page1 : Page
     {
         
-        public Page1()
+        public Page1(User user)
         {
             InitializeComponent();
+            FIOTB.Text=user.UserSurname+" " +user.UserName+" " + user.UserPatronymic;
+            switch (user.UserRole)
+            {
+                case 1:
+                    RoleTB.Text = "Клиент";break;
+                    case 2:
+                    RoleTB.Text = "Менеджер"; break;
+                    case 3:
+                    RoleTB.Text = "Администратор"; break;
+            }
+
+
             var currentProduct = Gilmetdinova41sizeEntities.GetContext().Product.ToList();
             SizeListView.ItemsSource = currentProduct;
-            UpdatePage();
+        
             ComboType.SelectedIndex = 0;
         }
         private void UpdatePage()

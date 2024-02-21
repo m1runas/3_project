@@ -48,3 +48,5 @@ D:\3 курс\ИСП-3121\Гильметдинова Руслана\3_project\3_
 D:\3 курс\ИСП-3121\Гильметдинова Руслана\3_project\3_project\Gilmetdinova41size\obj\Debug\Gilmetdinova41size.csproj.CopyComplete
 D:\3 курс\ИСП-3121\Гильметдинова Руслана\3_project\3_project\Gilmetdinova41size\obj\Debug\Gilmetdinova41size.exe
 D:\3 курс\ИСП-3121\Гильметдинова Руслана\3_project\3_project\Gilmetdinova41size\obj\Debug\Gilmetdinova41size.pdb
+D:\3 курс\ИСП-3121\Гильметдинова Руслана\3_project\3_project\Gilmetdinova41size\obj\Debug\AuthPage.g.cs
+D:\3 курс\ИСП-3121\Гильметдинова Руслана\3_project\3_project\Gilmetdinova41size\obj\Debug\AuthPage.baml

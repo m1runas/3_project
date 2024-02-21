@@ -16,15 +16,28 @@
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-          
-                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <TextBlock Text="" FontSize="15"></TextBlock>
+                 <TextBlock Text="" FontSize="15"></TextBlock>
+                <TextBlock Text="Количество " FontSize="15" FontWeight="Bold"/>
+                <TextBlock Name="TBCount" FontSize="15" FontWeight="Bold"/>
+                <TextBlock Text=" из " FontSize="15" FontWeight="Bold"/>
+                <TextBlock Name="TBALLRecords" FontSize="15" FontWeight="Bold"/>
+            </StackPanel>
+            <StackPanel>
+               
+                <TextBlock Text="Вы авторизированы как " FontSize="15"></TextBlock>
+                <TextBlock x:Name="FIOTB" FontSize="15"></TextBlock>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="" FontSize="15"></TextBlock>
+                <TextBlock Text="" FontSize="15"></TextBlock>
+                <TextBlock Text="Роль:" FontSize="15"></TextBlock>
+                <TextBlock x:Name="RoleTB" FontSize="15"></TextBlock>
+            </StackPanel>
+            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" >
 
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                    <TextBlock Text="Количество " FontSize="15" FontWeight="Bold"/>
-                    <TextBlock Name="TBCount" FontSize="15" FontWeight="Bold"/>
-                    <TextBlock Text=" из " FontSize="15" FontWeight="Bold"/>
-                    <TextBlock Name="TBALLRecords" FontSize="15" FontWeight="Bold"/>
-                </StackPanel>
+                
                 <StackPanel Margin="10" Orientation="Horizontal">
                     <TextBlock Text="Введите название для поиска" TextAlignment="Right"
                                Width="235" FontSize="15" VerticalAlignment="Center"></TextBlock>
