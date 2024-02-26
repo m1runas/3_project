@@ -18,7 +18,7 @@
         
         <TextBlock Text="ООО 41 размер" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35"></TextBlock>
         <Button x:Name="btnback" Content="Назад" Height="35" Width="100"  Margin="5" HorizontalAlignment="Right" Background="#FFCC6600" Click="Button_Click"></Button>
-        <Frame Grid.Row="1" Name="MainFrame" ContentRendered="MainFrame_ContentRendered"></Frame>
+        <Frame Grid.Row="1" Name="MainFrame" ContentRendered="MainFrame_ContentRendered" NavigationUIVisibility="Hidden"></Frame>
         
     </Grid>
 </Window>

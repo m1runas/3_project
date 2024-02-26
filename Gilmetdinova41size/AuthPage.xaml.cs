@@ -51,7 +51,10 @@ namespace Gilmetdinova41size
 
         private void GuestBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            User user = null;
+            Manager.MainFrame.Navigate(new Page1(user));
+            LoginTB.Text = "";
+            PassTB.Text = "";
 
         }
     }

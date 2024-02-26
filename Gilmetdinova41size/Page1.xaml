@@ -24,15 +24,16 @@
                 <TextBlock Text=" из " FontSize="15" FontWeight="Bold"/>
                 <TextBlock Name="TBALLRecords" FontSize="15" FontWeight="Bold"/>
             </StackPanel>
-            <StackPanel>
+            <WrapPanel >
                
                 <TextBlock Text="Вы авторизированы как " FontSize="15"></TextBlock>
-                <TextBlock x:Name="FIOTB" FontSize="15"></TextBlock>
-            </StackPanel>
+                <TextBlock x:Name="FIOTB" FontSize="15" ></TextBlock>
+            </WrapPanel>
+            <TextBlock Text=" "> </TextBlock>
             <StackPanel>
                 <TextBlock Text="" FontSize="15"></TextBlock>
                 <TextBlock Text="" FontSize="15"></TextBlock>
-                <TextBlock Text="Роль:" FontSize="15"></TextBlock>
+                <TextBlock Name="LableRole" Text="Роль:" FontSize="15"></TextBlock>
                 <TextBlock x:Name="RoleTB" FontSize="15"></TextBlock>
             </StackPanel>
             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" >

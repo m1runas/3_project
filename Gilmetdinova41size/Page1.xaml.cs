@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
@@ -26,16 +28,28 @@ namespace Gilmetdinova41size
         public Page1(User user)
         {
             InitializeComponent();
-            FIOTB.Text=user.UserSurname+" " +user.UserName+" " + user.UserPatronymic;
-            switch (user.UserRole)
+            if(null != user)
             {
-                case 1:
-                    RoleTB.Text = "Клиент";break;
+                FIOTB.Text = user.UserSurname + " " + user.UserName + " " + user.UserPatronymic;
+                switch (user.UserRole)
+                {
+                    case 1:
+                        RoleTB.Text = "Клиент"; break;
                     case 2:
-                    RoleTB.Text = "Менеджер"; break;
+                        RoleTB.Text = "Менеджер"; break;
                     case 3:
-                    RoleTB.Text = "Администратор"; break;
+                        RoleTB.Text = "Администратор"; break;
+                }
             }
+            else
+            {
+                FIOTB.Text = "Гость";
+                RoleTB.Text="";
+                LableRole.Text = "";
+            }
+           
+
+            
 
 
             var currentProduct = Gilmetdinova41sizeEntities.GetContext().Product.ToList();
